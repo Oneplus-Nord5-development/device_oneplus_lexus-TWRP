@@ -44,13 +44,16 @@ TARGET_NO_BOOTLOADER := false
 TARGET_USES_UEFI := true
 TARGET_USES_REMOTEPROC := true
 
+# Recovery
+TARGET_OTA_ASSERT_DEVICE := OP6131L1
+
 # Kernel/Ramdisk
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
 BOARD_KERNEL_IMAGE_NAME := kernel
 BOARD_RAMDISK_USE_LZ4 := true
-TARGET_PREBUILT_KERNEL := $(COMMON_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
 
 # Partition Info
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
@@ -112,7 +115,7 @@ TARGET_RECOVERY_DEVICE_MODULES += \
     vendor.display.config@1.0 \
     vendor.display.config@2.0 \
     libdebuggerd_client
-TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true
@@ -133,13 +136,17 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 
 # Extras
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-TARGET_VENDOR_PROP += $(COMMON_PATH)/vendor.prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+
+# Vibrator
+TW_SUPPORT_INPUT_AIDL_HAPTICS := true
 
 # TWRP specific build flags
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TW_THEME := portrait_hdpi
+TW_FRAMERATE := 120
 TW_CUSTOM_CPU_TEMP_PATH := "/sys/devices/virtual/thermal/thermal_zone45/temp"
 TW_BRIGHTNESS_PATH := "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/backlight/panel0-backlight/brightness"
 TW_STATUS_ICONS_ALIGN := center
@@ -155,6 +162,7 @@ TW_NO_EXFAT_FUSE := true
 TW_INCLUDE_RESETPROP := true
 TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
 TW_SCREEN_BLANK_ON_BOOT := true
+TW_NO_SCREEN_BLANK := true
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.product;ro.build.fingerprint=ro.vendor.build.fingerprint;ro.build.version.incremental"
 TW_OVERRIDE_PROPS_ADDITIONAL_PARTITIONS := vendor
@@ -169,7 +177,7 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libdebuggerd_client.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
-TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko rproc_qcom_common.ko q6_dlkm.ko qcom_q6v5.ko qcom_q6v5_pas.ko qcom_esoc.ko qcom_sysmon.ko qcom-hv-haptics.ko goodix_ts.ko haptic_feedback.ko oplus_chg_v2.ko oplus_bsp_tp_custom.ko oplus_bsp_tp_common.ko oplus_bsp_tp_notify.ko oplus_bsp_tp_tcm_oncell.ko oplus_bsp_tp_tcm_S3910.ko oplus_bsp_tp_syna_comnon.ko oplus_bsp_tp_gt9966.ko oplus_bsp_tp_gt9916.ko"
+TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko rproc_qcom_common.ko q6_dlkm.ko qcom_q6v5.ko qcom_q6v5_pas.ko qcom_esoc.ko qcom_sysmon.ko qcom-hv-haptics.ko goodix_ts.ko haptic_feedback.ko oplus_chg_v2.ko oplus_bsp_tp_custom.ko oplus_bsp_tp_common.ko oplus_bsp_tp_notify.ko oplus_bsp_tp_tcm_oncell.ko oplus_bsp_tp_tcm_S3910.ko oplus_bsp_tp_syna_common.ko oplus_bsp_tp_gt9966.ko oplus_bsp_tp_gt9916.ko oplus_bsp_tp_novatek_common.ko oplus_bsp_tp_nt36532_noflash.ko"
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 # TWRP Debug Flags

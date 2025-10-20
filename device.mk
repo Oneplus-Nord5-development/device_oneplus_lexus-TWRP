@@ -51,7 +51,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 # A/B updater updatable partitions list. Keep in sync with the partition list
 # with "_a" and "_b" variants in the device. Note that the vendor can add more
 # more partitions to this list for the bootloader and radio.
-AB_OTA_PARTITIONS ?= boot vendor_boot recovery vendor_dlkm dtbo vbmeta super init_boot system_dlkm
+AB_OTA_PARTITIONS := boot vendor_boot recovery vendor_dlkm dtbo vbmeta super init_boot system_dlkm abl aop aop_config bluetooth cpucp cpucp_dtb devcfg dsp engineering_cdt featenabler hyp imagefv keymaster modem oplus_sec oplusstanvbk qupfw shrm splash tz uefi uefisecapp xbl xbl_config xbl_ramdump
 
 # A/B related packages
 PRODUCT_PACKAGES += update_engine \
@@ -105,7 +105,7 @@ PRODUCT_PACKAGES += \
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(COMMON_PATH)
+    $(DEVICE_PATH)
 
 #namespace definition for librecovery_updater
 #differentiate legacy 'sg' or 'bsg' framework
@@ -116,7 +116,7 @@ SOONG_CONFIG_ufsbsg_ufsframework := bsg
 
 # OEM otacerts
 PRODUCT_EXTRA_RECOVERY_KEYS += \
-    $(COMMON_PATH)/security/otacert
+    $(DEVICE_PATH)/security/otacert
 
 
 # System AVB
@@ -129,4 +129,4 @@ BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 # Enable Fuse Passthrough
 PRODUCT_PROPERTY_OVERRIDES += persist.sys.fuse.passthrough.enable=true
 
-TARGET_RECOVERY_DEVICE_DIRS += $(COMMON_PATH)/twrp
+TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/twrp
